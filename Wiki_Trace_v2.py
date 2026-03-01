@@ -930,6 +930,58 @@ print(f"  P99 Latency     : {np.percentile(blru_lat, 99):8.2f} ms")
 print("─"*55 + "\\n")
 
 # %% [markdown]
+# ### Visualization of Online Learning Results
+
+# %%
+import matplotlib.pyplot as plt
+
+# Data for plotting
+labels = ['LRU Baseline', 'B-LRU', 'OnlineLRBCache']
+hit_rates = [lru_hr * 100, blru_hr * 100, om['hit_rate'] * 100]
+byte_miss_ratios = [lru_bm / lru_tb * 100, blru_bm / blru_tb * 100, om['byte_miss_ratio'] * 100]
+
+x = np.arange(len(labels))
+width = 0.35
+
+fig, ax1 = plt.subplots(figsize=(10, 6))
+
+# Plot Hit Rate on primary y-axis
+rects1 = ax1.bar(x - width/2, hit_rates, width, label='Hit Rate (%)', color='skyblue')
+ax1.set_ylabel('Hit Rate (%)', fontweight='bold')
+ax1.set_ylim(0, max(hit_rates) + 5)
+ax1.set_title('Continuous Streaming Performance (500K Requests)', fontweight='bold')
+ax1.set_xticks(x)
+ax1.set_xticklabels(labels, fontweight='bold')
+
+# Create secondary y-axis for Byte Miss Ratio
+ax2 = ax1.twinx()
+rects2 = ax2.bar(x + width/2, byte_miss_ratios, width, label='Byte Miss Ratio (%)', color='coral')
+ax2.set_ylabel('Byte Miss Ratio (%)', fontweight='bold')
+ax2.set_ylim(min(byte_miss_ratios) - 5, 100)
+
+# Add legends
+lines_1, labels_1 = ax1.get_legend_handles_labels()
+lines_2, labels_2 = ax2.get_legend_handles_labels()
+ax1.legend(lines_1 + lines_2, labels_1 + labels_2, loc='upper left')
+
+# Add value labels
+def autolabel(rects, ax, unit="%"):
+    for rect in rects:
+        height = rect.get_height()
+        ax.annotate(f'{height:.2f}{unit}',
+                    xy=(rect.get_x() + rect.get_width() / 2, height),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+autolabel(rects1, ax1)
+autolabel(rects2, ax2)
+
+fig.tight_layout()
+plt.show()
+
+
+# %% [markdown]
 # ## Summary
 # ---
 #
