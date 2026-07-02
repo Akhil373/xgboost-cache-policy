@@ -24,7 +24,7 @@ When an object is accessed, the EDCs decay based on the time since the last acce
 
 ### 3.2 The ML Engine: XGBoost
 We chose XGBoost as the inference engine. CDNs process tens of thousands of requests per second, so the inference latency must be microscopic. XGBoost's gradient-boosted decision trees provide exceptional non-linear mapping capabilities (critical for understanding how EDCs interact with object sizes) while executing in sub-milliseconds on standard CPUs.
-The model is trained on a Mean Squared Error (MSE) objective, attempting to predict $log(1 + \text{steps\_to\_next\_reuse})$.
+The model is trained on a Mean Squared Error (MSE) objective, attempting to predict $log(1 + \text{steps-to-next-reuse})$.
 
 ### 3.3 Protection from the Thrash: The Bloom Filter Admission Gate
 Internet traffic is notoriously dominated by "one-hit wonders"—objects requested exactly once and never again. In our Wikimedia trace, over 80% of unique objects were one-hit wonders. 
