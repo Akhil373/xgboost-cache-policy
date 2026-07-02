@@ -1,4 +1,4 @@
-# AI-Powered Caching: Optimizing CDN Eviction using Relaxed Belady and XGBoost
+# Optimizing CDN Eviction using Relaxed Belady and XGBoost
 
 ## 1. Abstract
 Content Delivery Networks (CDNs) rely heavily on cache eviction algorithms to minimize backend fetches and bound tail latencies. Traditional heuristic algorithms, such as Least Recently Used (LRU), fail to adapt to the highly dynamic, power-law distributed nature of modern internet traffic. Inspired by the NSDI'20 paper "Learning Relaxed Belady for Content Distribution Network Caching," this project implements a Machine Learning-driven cache eviction policy. 
